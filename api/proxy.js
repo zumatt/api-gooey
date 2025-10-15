@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  if (!messages || messages.length > 10 || JSON.stringify(req.body).length > 5000) {
+  if (!messages || messages.length > 10 || JSON.stringify(req.body).length > 20000) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
