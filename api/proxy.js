@@ -19,6 +19,22 @@ export default async function handler(req, res) {
   const apiKey = process.env.GOOEY_API_KEY;
   const { input_prompt, messages = [] } = req.body;
 
+  // Log the request body for debugging in Vercel
+  console.log("Request body received:", JSON.stringify(req.body, null, 2));
+
+  // Check if body contains only allowed properties
+  const allowedProperties = ['input_prompt', 'messages'];
+  const bodyKeys = Object.keys(req.body);
+  const hasInvalidProperties = bodyKeys.some(key => !allowedProperties.includes(key));
+  
+  if (hasInvalidProperties) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
+  if (!messages || messages.length > 10 || JSON.stringify(req.body).length > 5000) {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
   try {
     // Your existing Gooey API call and polling logic here
     const initial = await fetch(
