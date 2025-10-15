@@ -28,11 +28,15 @@ export default async function handler(req, res) {
   const hasInvalidProperties = bodyKeys.some(key => !allowedProperties.includes(key));
   
   if (hasInvalidProperties) {
+    return res.status(400).json({ error: 'Invalid request: Unknown properties found' });
+  }
+
+  if (!messages || messages.length > 10) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  if (!messages || messages.length > 10 || JSON.stringify(req.body).length > 20000) {
-    return res.status(400).json({ error: 'Invalid request' });
+  if (JSON.stringify(req.body).length > 20000) {
+    return res.status(400).json({ error: 'Invalid request: Body too large' });
   }
 
   try {
