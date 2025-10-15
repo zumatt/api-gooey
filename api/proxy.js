@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid request: Unknown properties found' });
   }
 
-  if (!messages || messages.length > 10) {
+  if (!messages || messages.length > 20) {
     console.log("Invalid request: Too many messages or messages missing");
     return res.status(400).json({ error: 'Invalid request' });
   }
