@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.GOOEY_API_KEY;
-  const { input_prompt } = req.body;
+  const { input_prompt, messages = [] } = req.body;
 
   try {
     // Your existing Gooey API call and polling logic here
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
           "Authorization": "bearer " + apiKey,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ input_prompt, messages: [] }),
+        body: JSON.stringify({ input_prompt, messages }),
       }
     );
 
