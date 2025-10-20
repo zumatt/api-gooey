@@ -2,9 +2,13 @@
 
 export default async function handler(req, res) {
   // === CORS HEADERS ===
-  res.setHeader("Access-Control-Allow-Origin", "*"); // to be replaced with MAKEAWARE website instead of *
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  const origin = req.headers.origin || '*';
+  // If you want to restrict to a single origin, replace origin with the explicit URL:
+  // const origin = 'https://your-makeaware-site.example';
+
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   // Handle preflight OPTIONS request
   if (req.method === "OPTIONS") {
@@ -97,6 +101,6 @@ export default async function handler(req, res) {
       citations: selected.citations || {},
     });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: String(err) });
   }
 }
